@@ -10,7 +10,7 @@ const isAuthenticated = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.SECRETEKEY);
-   console.log(decoded) // contains { userId, role, nmae }
+  //  console.log(decoded) // contains { userId, role, nmae }
      req.user = await User.findById(decoded.userId).select('-password');
     next();
   } catch (error) {
