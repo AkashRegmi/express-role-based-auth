@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 // Auth Middleware: checks if token exists and is valid
-const isAuthenticated = (req, res, next) => {
+const isAuthenticated = async (req, res, next) => {
   const token = req.cookies.token;
 
   if (!token) {
@@ -10,7 +10,8 @@ const isAuthenticated = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.SECRETEKEY);
-    req.user = decoded; // contains { userId, role, nmae }
+   console.log(decoded) // contains { userId, role, nmae }
+     req.user = await User.findById(decoded.userId).select('-password');
     next();
   } catch (error) {
     return res.status(401).json({ message: 'Unauthorized: Invalid token' });

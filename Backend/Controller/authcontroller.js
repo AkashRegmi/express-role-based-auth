@@ -33,7 +33,7 @@ const Signup = async (req, res) => {
   );
   console.log(`The Token is ${token}`);
   res.cookie("token", token, {
-    httponly: true,
+    httpOnly: true,
     maxAge: 3600000,
   });
   res.status(200).json({
@@ -67,8 +67,8 @@ const Signin = async (req, res) => {
     // 4. Set token in HTTP-only cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // only true in production
-      sameSite: "Strict",
+      secure: false ,// process.env.NODE_ENV === "production", // only true in production
+      sameSite: "Lax", //"Strict"
       maxAge: 3600000, // 1 hour
     });
     res.status(200).json({
@@ -84,7 +84,7 @@ const Signin = async (req, res) => {
 };
 const Logout = async (req, res) => {
   res.clearCookie("token", {
-    httponly: true,
+    httpOnly: true,
   });
   res.status(200).json({
     message: "Logout Successfully",
